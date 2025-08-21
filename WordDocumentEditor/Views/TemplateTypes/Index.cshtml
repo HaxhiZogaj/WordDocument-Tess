@@ -1,0 +1,214 @@
+﻿@model List<WordDocumentEditor.Models.DocTemplateType>
+
+@{
+    ViewData["Title"] = "Template Types";
+}
+
+<!-- Grid messages for success and error -->
+<div class="col-lg-12 control-section msg-default-section">
+    <div class="content-section">
+        <ejs-message id="msg_success" severity="Success" visible="false" showCloseIcon="true"></ejs-message>
+        <ejs-message id="msg_error" severity="Error" visible="false" showCloseIcon="true"></ejs-message>
+    </div>
+</div>
+
+<ejs-grid id="Grid" dataSource="@Model" allowSorting="true" allowFiltering="true" toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })" allowPaging="true" actionBegin="actionBegin" cssClass="e-css">
+    <e-grid-editSettings allowAdding="true" allowDeleting="true" allowEditing="true" newRowPosition="Top" showAddNewRow="true"></e-grid-editSettings>
+    <e-grid-pagesettings pageCount="5"></e-grid-pagesettings>
+    <e-grid-filterSettings type="Excel"></e-grid-filterSettings>
+
+    <e-grid-columns>
+        <e-grid-column field="TemplateTypeId" headerText="Template Type ID" isPrimaryKey="true" isIdentity="true" visible="false"></e-grid-column>
+        <e-grid-column field="Name" headerText="Name" validationRules="@(new { required = true })"></e-grid-column>
+        <e-grid-column field="Description" headerText="Description" type="string"></e-grid-column>
+        <e-grid-column field="IsActive" headerText="Is Active" type="boolean" editType="booleanedit"></e-grid-column>
+    </e-grid-columns>
+</ejs-grid>
+
+
+
+<script>
+    function actionBegin(args) {
+        var grid = document.getElementById("Grid").ej2_instances[0];
+        var successMessage = document.getElementById("msg_success").ej2_instances[0];
+        var errorMessage = document.getElementById("msg_error").ej2_instances[0];
+
+        hideMessages();
+
+        if (args.requestType === 'beginEdit') {
+            // Show all columns when editing a row
+            var columns = grid.columns;
+            for (var i = 0; i < columns.length; i++) {
+                if (!columns[i].visible) {
+                    grid.showColumns([columns[i].headerText]);
+                }
+            }
+        } else if (args.requestType === 'save') {
+            hideMessages();
+            if (args.action === 'add') {
+                args.cancel = true;
+                var url = '@Url.Action("Add", "TemplateTypes")';
+                var ajax = new ej.base.Ajax({
+                    url: url,
+                    type: "POST",
+                    data: JSON.stringify({
+                        Name: args.data.Name,
+                        Description: args.data.Description,
+                        IsActive: args.data.IsActive
+                    }),
+                    contentType: "application/json"
+                });
+                ajax.send().then(function (response) {
+                    var result = JSON.parse(response);
+                    if (result.success) {
+                        args.data.TemplateTypeId = result.templateTypeId;  // Assign TemplateTypeId on successful add
+                        grid.dataSource.unshift(args.data);
+                        grid.refresh();
+                        grid.closeEdit();
+
+                        successMessage.content = result.message;
+                        successMessage.visible = true;
+                    } else {
+                        errorMessage.content = result.message;
+                        errorMessage.visible = true;
+                    }
+                }).catch(function () {
+                    errorMessage.content = "An error occurred while adding the template.";
+                    errorMessage.visible = true;
+                });
+            } else {
+                var url = '@Url.Action("Update", "TemplateTypes")';
+                var ajax = new ej.base.Ajax({
+                    url: url,
+                    type: "POST",
+                    data: JSON.stringify(args.data),
+                    contentType: "application/json"
+                });
+                ajax.send().then(function (response) {
+                    var result = JSON.parse(response);
+                    if (result.success) {
+                        grid.refresh();
+                        successMessage.content = result.message;
+                        successMessage.visible = true;
+                    } else {
+                        errorMessage.content = result.message;
+                        errorMessage.visible = true;
+                    }
+                }).catch(function () {
+                    errorMessage.content = "An error occurred while updating the template.";
+                    errorMessage.visible = true;
+                });
+            }
+        } else if (args.requestType === 'delete') {
+            args.cancel = true;
+            var url = '@Url.Action("Delete", "TemplateTypes")';
+            var ajax = new ej.base.Ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify(args.data[0].TemplateTypeId),
+                contentType: "application/json"
+            });
+            ajax.send().then(function (response) {
+                var result = JSON.parse(response);
+                if (result.success) {
+                    var selectedRow = grid.getSelectedRowIndexes()[0];
+                    grid.dataSource.splice(selectedRow, 1);
+                    grid.refresh();
+                    successMessage.content = result.message;
+                    successMessage.visible = true;
+                } else {
+                    errorMessage.content = result.message;
+                    errorMessage.visible = true;
+                }
+            }).catch(function () {
+                errorMessage.content = "An error occurred while deleting the template.";
+                errorMessage.visible = true;
+            });
+        }
+    }
+    // Handle toolbar clicks /
+    function toolbarClick(args) {
+        // /  Hiding messages on toolbar click
+        hideMessages();
+        var gridObj = document.getElementById("Grid").ej2_instances[0];
+        var dialogButton = document.getElementById('Grid_Dialog');
+        var inlineButton = document.getElementById('Grid_Inline');
+
+        if (args.item.id === 'Grid_pdfexport') {
+            let columns = gridObj.columns;
+            columns.forEach(column => {
+                if (column.type === 'datetime') {
+                    column.format = 'long';
+                }
+            });
+            gridObj.pdfExport();
+        }
+        else if (args.item.id === 'Grid_excelexport') {
+            let columns = gridObj.columns;
+            columns.forEach(column => {
+                if (column.type === 'datetime') {
+                    column.format = "yyyy.MM.dd HH:mm:ss";
+                }
+            });
+            gridObj.excelExport();
+        }
+        else if (args.item.id === 'Grid_cancel') {
+
+            /* Removing new row on clicking cancel */
+            gridObj.editSettings.showAddNewRow = false;
+        }
+        else if (args.item.id === 'Grid_Dialog') {
+
+            /* Switching to dialog mode, buttons and button colors */
+            gridObj.editSettings.mode = 'Dialog';
+
+            document.getElementById('Grid_update').style.display = 'none';
+            document.getElementById('Grid_cancel').style.display = 'none';
+
+            inlineButton.style.backgroundColor = '#f8f9fa';
+            dialogButton.style.backgroundColor = '#86b7fe';
+
+            gridObj.refresh();
+        }
+        else if (args.item.id === 'Grid_Inline') {
+
+            /* Switching to inline mode, buttons and button colors */
+            gridObj.editSettings.mode = 'Normal';
+
+            document.getElementById('Grid_update').style.display = 'block';
+            document.getElementById('Grid_cancel').style.display = 'block';
+
+            inlineButton.style.backgroundColor = '#86b7fe';
+            dialogButton.style.backgroundColor = '#f8f9fa';
+
+            gridObj.refresh();
+        }
+    }
+
+    function contextMenuClick(args) {
+        hideMessages();
+
+        if (this.getSelectedRecords().length > 0) {
+            if (args.item.id === "Copy") {
+                this.copy();
+            } else if (args.item.id === "copyWithHeader") {
+                this.copy(true);
+            }
+        }
+    }
+
+    function hideMessages() {
+        var successMessage = document.getElementById("msg_success").ej2_instances[0];
+        var errorMessage = document.getElementById("msg_error").ej2_instances[0];
+        successMessage.visible = false;
+        errorMessage.visible = false;
+    }
+
+</script>
+
+<style>
+    #typeddl {
+        min-width: 100px;
+    }
+</style>
+

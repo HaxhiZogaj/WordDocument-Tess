@@ -1,0 +1,112 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\wwwroot\**" />
+    <Content Remove="wwwroot\wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\wwwroot\**" />
+    <None Remove="wwwroot\wwwroot\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="efpt.config.json.user" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\listB.cshtml" />
+    <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\_ViewImports.cshtml" />
+    <None Include="Views\_ViewStart.cshtml" />
+    <None Include="wwwroot\js\ej2\ej2.min.js" />
+    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\SavedFiles\aaaaa.docx" />
+    <None Include="wwwroot\SavedFiles\Business-Contract E Oltit.docx" />
+    <None Include="wwwroot\SavedFiles\Business-Contract.docx" />
+    <None Include="wwwroot\SavedFiles\Business-ContractHaXIzoGFAJADADAS.docx" />
+    <None Include="wwwroot\SavedFiles\Business-haxhizogaj.docx" />
+    <None Include="wwwroot\SavedFiles\Document.docx" />
+    <None Include="wwwroot\SavedFiles\DocumentAdeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.docx" />
+    <None Include="wwwroot\SavedFiles\DocumentHasxhiii %281%29234.docx" />
+    <None Include="wwwroot\SavedFiles\DocumentHasxhiii.docx" />
+    <None Include="wwwroot\SavedFiles\DocumentHasxhiiikiiiiii.docx" />
+    <None Include="wwwroot\SavedFiles\DocumentOniks.docx" />
+    <None Include="wwwroot\SavedFiles\DocumenytttttiNazmist.docx" />
+    <None Include="wwwroot\SavedFiles\DocumenyttttttLEonit.docx" />
+    <None Include="wwwroot\SavedFiles\Fisi.docx" />
+    <None Include="wwwroot\SavedFiles\HashimBoja.docx" />
+    <None Include="wwwroot\SavedFiles\message.docx" />
+    <None Include="wwwroot\SavedFiles\netcore.docx" />
+    <None Include="wwwroot\SavedFiles\Sample %288%29 %283%29.docx" />
+    <None Include="wwwroot\SavedFiles\Sillabus %28eng%29_DATABASE SYSTEMS _21-22-2.docx" />
+    <None Include="wwwroot\SavedFiles\test.docx" />
+    <None Include="wwwroot\SavedFiles\tttttttttttttttttttttttttt.docx" />
+    <None Include="wwwroot\SavedFiles\Untitled.docx" />
+    <None Include="wwwroot\scripts\ej2.min.js" />
+    <None Include="wwwroot\scripts\import-helper.js" />
+    <None Include="wwwroot\Tessdata\eng.traineddata" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IronOcr" Version="2025.3.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="27.2.3" />
+    <PackageReference Include="Syncfusion.EJ2.WordEditor.AspNet.Core" Version="27.2.3" />
+    <PackageReference Include="Syncfusion.Licensing" Version="27.2.3" />
+    <PackageReference Include="Tesseract" Version="5.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\TessSaved\" />
+  </ItemGroup>
+
+</Project>

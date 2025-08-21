@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WordDocument</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/WordDocumentEditor.styles.css" asp-append-version="true">
+    <script src="~/js/ej2/ej2.min.js"></script>
+    <link rel="stylesheet" href="~/css/ej2/bootstrap5.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.js"></script>
+    <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/27.1.55/fluent.css" />
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-base/dist/global/ej2-base.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-data/dist/global/ej2-data.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-svg-base/dist/global/ej2-svg-base.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-file-utils/dist/global/ej2-file-utils.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-compression/dist/global/ej2-compression.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-pdf-export/dist/global/ej2-pdf-export.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-buttons/dist/global/ej2-buttons.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-popups/dist/global/ej2-popups.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-splitbuttons/dist/global/ej2-splitbuttons.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-inputs/dist/global/ej2-inputs.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-lists/dist/global/ej2-lists.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-navigations/dist/global/ej2-navigations.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-dropdowns/dist/global/ej2-dropdowns.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-calendars/dist/global/ej2-calendars.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-charts/dist/global/ej2-charts.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-office-chart/dist/global/ej2-office-chart.min.js" type="text/javascript"></script>
+    <script src="https://cdn.syncfusion.com/ej2/27.1.55/ej2-documenteditor/dist/global/ej2-documenteditor.min.js" type="text/javascript"></script>
+    <style>
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WordDocument</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="TemplateTypes" asp-action="Index">TemplateTypes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Template" asp-action="Index">Template</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="List">Lista</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                      
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="DBEditor">DBeditor</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="DBEList">DBList</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="FilesOfOcr" asp-action="Tess">Tess</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+            @RenderSection("ControlsSection", required: false)
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; @DateTime.Now.Year - DocumentEditor - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <ejs-scripts></ejs-scripts>
+    @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("PreScripts", required: false)
+</body>
+</html>

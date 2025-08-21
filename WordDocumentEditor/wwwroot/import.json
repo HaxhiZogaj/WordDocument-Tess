@@ -1,0 +1,16 @@
+{
+    "name": "ej2",
+    "version": "20.3.50",
+    "components": [
+        "document-editor-container"
+    ],
+    "injectables": {
+        "document-editor-container": [
+            "Toolbar"
+        ]
+    },
+    "minified": true,
+    "themes": [
+        "material"
+    ]
+}

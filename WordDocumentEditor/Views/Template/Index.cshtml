@@ -1,0 +1,155 @@
+﻿@model IEnumerable<WordDocumentEditor.Models.DocTemplate>
+
+@{
+    ViewData["Title"] = "Templates";
+}
+
+<!-- Grid messages for success and error -->
+<div class="col-lg-12 control-section msg-default-section">
+    <div class="content-section">
+        <ejs-message id="msg_success" severity="Success" visible="false" showCloseIcon="true"></ejs-message>
+        <ejs-message id="msg_error" severity="Error" visible="false" showCloseIcon="true"></ejs-message>
+    </div>
+</div>
+
+<ejs-grid id="Grid" dataSource="@Model" allowSorting="true" allowFiltering="true" 
+          toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })" 
+          allowPaging="true" actionBegin="actionBegin" cssClass="e-css">
+    <e-grid-editSettings allowAdding="true" allowDeleting="true" allowEditing="true" 
+                         newRowPosition="Top" showAddNewRow="true"></e-grid-editSettings>
+    <e-grid-pagesettings pageCount="5"></e-grid-pagesettings>
+    <e-grid-filterSettings type="Excel"></e-grid-filterSettings>
+
+    <e-grid-columns>
+        <e-grid-column field="TemplateId" headerText="ID" isPrimaryKey="true" isIdentity="true" visible="false"></e-grid-column>
+        <e-grid-column field="TemplateCode" headerText="Template Code" validationRules="@(new { required = true })"></e-grid-column>
+        <e-grid-column field="Name" headerText="Name" validationRules="@(new { required = true })"></e-grid-column>
+        <e-grid-column field="Description" headerText="Description" type="string"></e-grid-column>
+
+        <e-grid-column field="TemplateTypeId" headerText="Template Type" 
+                       foreignKeyValue="Name" foreignKeyField="TemplateTypeId" 
+                       dataSource="@ViewBag.TemplateTypes" 
+                       editType="dropdownedit" validationRules="@(new { required = true })">
+        </e-grid-column>
+        <e-grid-column field="Version" headerText="Version" type="number" validationRules="@(new { required = true, number = true })"></e-grid-column>
+        <e-grid-column field="TemplateFilePath" headerText="Template File Path" validationRules="@(new { required = true })"></e-grid-column>
+
+    </e-grid-columns>
+</ejs-grid>
+
+<script>
+    function actionBegin(args) {
+        var grid = document.getElementById("Grid").ej2_instances[0];
+        var successMessage = document.getElementById("msg_success").ej2_instances[0];
+        var errorMessage = document.getElementById("msg_error").ej2_instances[0];
+
+        hideMessages();
+
+        if (args.requestType === 'beginEdit') {
+            // Show all columns when editing a row
+            var columns = grid.columns;
+            for (var i = 0; i < columns.length; i++) {
+                if (!columns[i].visible) {
+                    grid.showColumns([columns[i].headerText]);
+                }
+            }
+        } else if (args.requestType === 'save') {
+            hideMessages();
+            if (args.action === 'add') {
+                args.cancel = true;
+                var url = '@Url.Action("Add", "Template")';
+                var ajax = new ej.base.Ajax({
+                    url: url,
+                    type: "POST",
+                    data: JSON.stringify({
+                        TemplateCode: args.data.TemplateCode,
+                        Name: args.data.Name,
+                        Description: args.data.Description,
+                        TemplateTypeId: args.data.TemplateTypeId,
+                        Version: args.data.Version,
+                        TemplateFilePath: args.data.TemplateFilePath
+                    }),
+                    contentType: "application/json"
+                });
+                ajax.send().then(function (response) {
+                    var result = JSON.parse(response);
+                    if (result.success) {
+                        args.data.TemplateId = result.templateId;
+                        grid.dataSource.unshift(args.data);
+                        grid.refresh();
+                        grid.closeEdit();
+
+                        successMessage.content = result.message;
+                        successMessage.visible = true;
+                    } else {
+                        errorMessage.content = result.message;
+                        errorMessage.visible = true;
+                    }
+                }).catch(function () {
+                    errorMessage.content = "An error occurred while adding the template.";
+                    errorMessage.visible = true;
+                });
+            } else {
+                var url = '@Url.Action("Update", "Template")';
+                var ajax = new ej.base.Ajax({
+                    url: url,
+                    type: "POST",
+                    data: JSON.stringify(args.data),
+                    contentType: "application/json"
+                });
+                ajax.send().then(function (response) {
+                    var result = JSON.parse(response);
+                    if (result.success) {
+                        grid.refresh();
+                        successMessage.content = result.message;
+                        successMessage.visible = true;
+                    } else {
+                        errorMessage.content = result.message;
+                        errorMessage.visible = true;
+                    }
+                }).catch(function () {
+                    errorMessage.content = "An error occurred while updating the template.";
+                    errorMessage.visible = true;
+                });
+            }
+        } else if (args.requestType === 'delete') {
+            args.cancel = true;
+            var url = '@Url.Action("Delete", "Template")';
+            var ajax = new ej.base.Ajax({
+                url: url,
+                type: "POST",
+                data: JSON.stringify(args.data[0].TemplateId),
+                contentType: "application/json"
+            });
+            ajax.send().then(function (response) {
+                var result = JSON.parse(response);
+                if (result.success) {
+                    var selectedRow = grid.getSelectedRowIndexes()[0];
+                    grid.dataSource.splice(selectedRow, 1);
+                    grid.refresh();
+                    successMessage.content = result.message;
+                    successMessage.visible = true;
+                } else {
+                    errorMessage.content = result.message;
+                    errorMessage.visible = true;
+                }
+            }).catch(function () {
+                errorMessage.content = "An error occurred while deleting the template.";
+                errorMessage.visible = true;
+            });
+        }
+    }
+
+    function hideMessages() {
+        var successMessage = document.getElementById("msg_success").ej2_instances[0];
+        var errorMessage = document.getElementById("msg_error").ej2_instances[0];
+        successMessage.visible = false;
+        errorMessage.visible = false;
+    }
+</script>
+
+<style>
+    #typeddl {
+        min-width: 100px;
+    }
+</style>
